@@ -1,0 +1,7 @@
+[
+	{ "keys": ["super+shift+i"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
+	{ "keys": ["super+shift+l"], "command": "history_open" },
+	{ "keys": ["super+shift+f"], "command": "side_bar_open_with_finder", "args":{"paths":[]} },
+	{ "keys": ["super+shift+o"], "command": "side_bar_open_in_browser", "args":{"paths":[]} },
+	{ "keys": ["shift+f6"], "command": "side_bar_rename", "args":{"paths":[]} }
+]
