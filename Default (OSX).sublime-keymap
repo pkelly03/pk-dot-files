@@ -1,7 +1,15 @@
 [
 	{ "keys": ["super+shift+i"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
 	{ "keys": ["super+shift+l"], "command": "history_open" },
-	{ "keys": ["super+shift+f"], "command": "side_bar_open_with_finder", "args":{"paths":[]} },
-	{ "keys": ["super+shift+o"], "command": "side_bar_open_in_browser", "args":{"paths":[]} },
-	{ "keys": ["shift+f6"], "command": "side_bar_rename", "args":{"paths":[]} }
+	{ "keys": ["super+alt+f"], "command": "side_bar_open_with_finder", "args":{"paths":[]} },
+	{ "keys": ["super+alt+o"], "command": "side_bar_open_in_browser", "args":{"paths":[]} },
+	{ "keys": ["shift+f6"], "command": "side_bar_rename", "args":{"paths":[]} },
+	{ "keys": ["ctrl+left"], "command": "prev_view" },
+	{ "keys": ["ctrl+right"], "command": "next_view" },
+	{ "keys": ["super+shift+n"], "command": "side_bar_new_file", "args":{"paths":[]} },
+	{ "keys": ["ctrl+alt+d"], "command": "side_bar_delete", "args":{"paths":[]} },
+	{ "keys": ["super+shift+up"], "command": "swap_line_up"},
+	{ "keys": ["super+shift+down"], "command": "swap_line_down"},
+	{ "keys": ["ctrl+shift+d"], "command": "side_bar_duplicate", "args":{"paths":[]} },
+	{ "keys": ["super+shift+f"], "command": "show_panel", "args":{"panel": "find_in_files"}}
 ]
