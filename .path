@@ -1,3 +1,3 @@
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:.:$HOME/.rvm/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:.:$HOME/.rvm/bin:/Users/paulkelly/.rvm/rubies/ruby-2.1.1/bin/compass:/Applications/Postgres.app/Contents/Versions/9.3/bin:/Users/paulkelly/bin"
 export MANPATH="/usr/local/man:$MANPATH"
 

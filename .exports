@@ -22,4 +22,7 @@ export MANPAGER="less -X"
 export GREP_OPTIONS="--color=auto"
 
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
+export JAVA_HOME="`/usr/libexec/java_home -v '1.7*'`"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export JAVA_OPTS='-Xms2048m -Xrs -XX:MaxPermSize=512m'
+export M2_HOME=/usr/local/Cellar/maven

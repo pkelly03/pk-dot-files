@@ -14,7 +14,6 @@ alias p="cd ~/code"
 alias g="git"
 alias h="history"
 alias j="jobs"
-
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"
@@ -30,6 +29,9 @@ alias la="ls -laF ${colorflag}"
 
 # List only directories
 alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
+
+# Load testing runs a benchmark for 30 seconds, using 12 threads
+alias wrk="wrk -t12 -c400 -d30s"
 
 # Always use color output for `ls`
 alias ls="command ls ${colorflag}"
@@ -154,7 +156,8 @@ alias configu="source  ~/.zshrc"
 alias confige="vim  ~/.zshrc"
 alias ge="gradle everything"
 alias chrome="open -a 'Google Chrome' --args -allow-file-access-from-files"
-
+alias notes="s ~/Dropbox/Notes"
+alias jenkins="java -jar /usr/local/opt/jenkins/libexec/jenkins.war"
 
 # Ack aliases
 alias ack="ack --pager='less -FRX' --colour"
@@ -174,6 +177,12 @@ alias killjobs='jobs -l | perl -pne '\''/\S+\s+(\d+)/; $_ = " $1" if($1);'\'' | 
 alias cleandsstore='find . -name ".DS_Store" -delete'
 alias cleandotsvn='find . -name ".svn" -exec rm -rf {} \;'
 alias d='du -csm -- * | sort -n | tee .d-`date +"%Y-%m-%dx%H:%M:%S"`'
+
+# Karma aliases
+alias lekarma='~/repos/leweb/tools/grunt/node_modules/karma/bin/karma'
+
+# RabbitMQ aliases
+alias rabbitmq='/usr/local/Cellar/rabbitmq/3.3.0/sbin/rabbitmq-server'
 
 # Vagrant
 alias vu='cd ~/repos/lechef/vagrant/dev && vagrant up'
@@ -333,3 +342,5 @@ alias gwc='git clean -n'
 alias gwC='git clean -f'
 alias gwx='git rm -r'
 alias gwX='git rm -rf'
+
+
