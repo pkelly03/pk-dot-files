@@ -1,5 +1,4 @@
-" Use the Molokai theme (originally created for TextMate by Wimer Hazenberg)
-colorscheme molokai
+execute pathogen#infect()
 
 " Make Vim more useful
 set nocompatible
@@ -30,8 +29,10 @@ if exists("&undodir")
 endif
 
 " Respect modeline in files
+set modeline
+set modelines=4
 " Enable per-directory .vimrc files and disable unsafe commands in them
-
+set exrc
 set secure
 " Enable line numbers
 set number
@@ -66,9 +67,15 @@ set shortmess=atI
 set showmode
 " Show the filename in the window titlebar
 set title
+" Use the html indent plugin
+filetype indent on
 " Show the (partial) command as it’s being typed
 set showcmd
 " Use relative line numbers
+if exists("&relativenumber")
+	set relativenumber
+	au BufReadPost * set relativenumber
+endif
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
 
@@ -83,6 +90,21 @@ endfunction
 noremap <leader>ss :call StripWhitespace()<CR>
 " Save a file as root (,W)
 noremap <leader>W :w !sudo tee % > /dev/null<CR>
+noremap <F2> :NERDTreeToggle<CR>
+
+nnoremap <A-F1> 1gt
+nnoremap <A-F2> 2gt
+nnoremap <A-F3> 3gt
+nnoremap <A-F4> 4gt
+nnoremap <A-F5> 5gt
+nnoremap <A-F6> 6gt
+nnoremap <A-F7> 7gt
+nnoremap <A-F8> 8gt
+nnoremap <A-F9> 9gt
+nnoremap <A-F0> 10gt
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 " Automatic commands
 if has("autocmd")
