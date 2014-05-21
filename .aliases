@@ -151,3 +151,17 @@ alias peekay='ssh pkelly03@270.908.myftpupload.com'
 
 # Scala course
 alias week1='cd ~/ScalaCourse2014/Week1'
+
+# Ack shortcuts
+alias acka="ack --all"
+alias ackcss="ack --css"
+alias ackjava="ack --java"
+alias ackjs="ack --js"
+alias ackpy="ack --python"
+alias ackrb="ack --ruby"
+alias ackcoffee="ack --coffee"
+alias ackc="ack --cc"
+alias ackpyx="ack --cython"
+alias ackgo="ack --go"
+alias ackjade="ack --jade"
+alias ackhtml="ack --html"
