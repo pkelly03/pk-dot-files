@@ -150,7 +150,7 @@ alias erc='subl ~/Dropbox/Projects/RipleyCourt'
 alias peekay='ssh pkelly03@270.908.myftpupload.com'
 
 # Scala course
-alias week1='cd ~/ScalaCourse2014/Week1'
+alias week4='cd ~/ScalaCourse2014/Week4'
 
 # Ack shortcuts
 alias acka="ack --all"
@@ -165,3 +165,12 @@ alias ackpyx="ack --cython"
 alias ackgo="ack --go"
 alias ackjade="ack --jade"
 alias ackhtml="ack --html"
+
+# Homeoffice aliases
+alias catalogue='cd /Users/paulkelly/repos/homeoffice-cjp/catalogue && run.sh'
+alias application='cd /Users/paulkelly/repos/homeoffice-cjp/application && run.sh'
+alias customer='cd /Users/paulkelly/repos/homeoffice-cjp/customer && run.sh'
+alias cjp='cd /Users/paulkelly/repos/homeoffice-cjp'
+
+# Misc 
+alias mytree="find . -type d | sed -e 1d -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|-/'"
