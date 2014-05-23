@@ -167,9 +167,10 @@ alias ackjade="ack --jade"
 alias ackhtml="ack --html"
 
 # Homeoffice aliases
-alias catalogue='cd /Users/paulkelly/repos/homeoffice-cjp/catalogue && run.sh'
-alias application='cd /Users/paulkelly/repos/homeoffice-cjp/application && run.sh'
-alias customer='cd /Users/paulkelly/repos/homeoffice-cjp/customer && run.sh'
+alias catalogue='cd /Users/paulkelly/repos/homeoffice-cjp/catalogue && t catalogue'
+alias application='cd /Users/paulkelly/repos/homeoffice-cjp/application && t application'
+alias customer='cd /Users/paulkelly/repos/homeoffice-cjp/customer && t customer'
+alias admin='cd /Users/paulkelly/repos/homeoffice-cjp/customer && t admin'
 alias cjp='cd /Users/paulkelly/repos/homeoffice-cjp'
 
 # Misc 
