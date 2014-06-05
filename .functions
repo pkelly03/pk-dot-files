@@ -8,6 +8,27 @@ function freeport {
 	lsof -i tcp:"$@"
 }
 
+setTerminalText () {
+    # echo works in bash & zsh
+    local mode=$1 ; shift
+    echo -ne "\033]$mode;$@\007"
+}
+
+stt_both  () { setTerminalText 0 $@; }
+
+function start() {
+	echo '1. Open iterm'	
+	echo '2. Divide into 8 screens'	
+	echo '3. Screen 1 - t mongo && mongod'	
+	echo '4. Screen 2 - t misc && mailcatcher && grunt d'	
+	echo '5. Screen 3 - worldpay && ./run.sh'	
+	echo '6. Screen 4 - pva && ./run.sh'	
+	echo '7. Screen 5 - catalogue && ./run.sh'	
+	echo '8. Screen 6 - application && ./run.sh'	
+	echo '9. Screen 7 - customer && ./run.sh'	
+	echo '9. Screen 8 - admin && ./run.sh'	
+}
+
 function setjdk() {  
   if [ $# -ne 0 ]; then  
      removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'  
