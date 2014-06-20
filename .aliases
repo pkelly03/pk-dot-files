@@ -88,9 +88,6 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 # OS X has no `sha1sum`, so use `shasum` as a fallback
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
-# Trim new lines and copy to clipboard
-alias c="tr -d '\n' | pbcopy"
-
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
@@ -145,6 +142,7 @@ alias hax="growlnotify -a 'Activity Monitor' 'System error' -m 'WTF R U DOIN'"
 alias ssh-google='gcutil --service_version="v1" --project="secure-way-431" ssh  --zone="europe-west1-a" "docker-playground"'
 alias gcentos='gcutil addinstance docker-playground --image=centos'
 alias python-server='python -m SimpleHTTPServer'
+alias c='clear'
 
 # Pet projects
 alias rc='cd ~/Dropbox/Projects/RipleyCourt'
