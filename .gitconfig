@@ -25,11 +25,14 @@
     # show changed files for a commit
     cf = show --pretty="format:" --name-only
     # show what I did today
-    day = "!sh -c 'git log --reverse --no-merges --branches=* --date=local --after=\"yesterday 11:59PM\" --author=\"`git config --get user.name`\"'"
+    day = "!sh -c 'git log --pretty=oneline --abbrev-commit --reverse --no-merges --branches=* --date=local --after=\"yesterday 11:59PM\" --author=\"`git config --get user.name`\"'"
 
     fixup = !sh -c 'git commit --fixup=$1' -
     squash = !sh -c 'git commit --squash=$1' -
     ri = rebase --interactive --autosquash
+
+    # difference to origin master
+    diff-master = log origin/master..master
 
     # stash shortcuts
     sp = stash pop
