@@ -170,19 +170,25 @@ alias ackjade="ack --jade"
 alias ackhtml="ack --html"
 
 # Homeoffice aliases
-alias catalogue='cd /Users/paulkelly/repos/homeoffice-cjp/catalogue && t catalogue'
-alias application='cd /Users/paulkelly/repos/homeoffice-cjp/application && t application'
-alias customer='cd /Users/paulkelly/repos/homeoffice-cjp/customer && t customer'
-alias grunt-dev='cd /Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && t "grunt dev" && grunt d'
-alias admin='cd /Users/paulkelly/repos/homeoffice-cjp/admin && t admin'
-alias worldpay='cd /Users/paulkelly/repos/homeoffice-cjp/worldpaystub && t worldpaystub'
-alias pva='cd /Users/paulkelly/repos/homeoffice-cjp/pvastub && t pvastub'
-alias cjp='cd /Users/paulkelly/repos/homeoffice-cjp'
 alias t='stt_both'
+alias catalogue='cd /Users/paulkelly/repos/homeoffice-cjp/catalogue && t "catalogue:3000" && ./run.sh'
+alias application='cd /Users/paulkelly/repos/homeoffice-cjp/application'
+alias customer='cd /Users/paulkelly/repos/homeoffice-cjp/customer'
+alias grunt-dev='/Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && t "grunt dev" && grunt d'
+alias admin='cd /Users/paulkelly/repos/homeoffice-cjp/admin && t "admin:9000" && ./run.sh'
+alias endtoend='cd /Users/paulkelly/repos/homeoffice-cjp/endtoend && t endtoend'
+alias worldpay='cd /Users/paulkelly/repos/homeoffice-cjp/worldpaystub && t worldpaystub && ./run.sh'
+alias pva='cd /Users/paulkelly/repos/homeoffice-cjp/pvastub && t pvastub && ./run.sh'
+alias proviso='cd /Users/paulkelly/repos/homeoffice-cjp/provisostub && t provisstub && ./run.sh'
+alias cjp='cd /Users/paulkelly/repos/homeoffice-cjp'
 alias mongo-server='t mongo && mongod'
+alias copy='cd /Users/paulkelly/repos/dcj-copy-editor && t copy-editor'
+alias source-map-clean='cd /Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && rm public/javascripts/app.map && grunt jst && grunt uglify && grunt-dev'
 
 # Misc 
 alias mytree="find . -type d | sed -e 1d -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|-/'"
 
 # Digital ocean aliases
 alias mean='ssh root@107.170.140.133'
+
+
