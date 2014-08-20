@@ -6,7 +6,7 @@
     user = pkelly03
 
 [core]
-    editor = subl
+    editor = vim 
     pager = less -FXRS -x2
 
 [alias]
@@ -23,16 +23,17 @@
     # show diff of cached files
     dc = diff --cached
     # show changed files for a commit
-    cf = show --pretty="format:" --name-only
+    show-file-name = show --pretty="format:" --name-only
     # show what I did today
-    day = "!sh -c 'git log --pretty=oneline --abbrev-commit --reverse --no-merges --branches=* --date=local --after=\"yesterday 11:59PM\" --author=\"`git config --get user.name`\"'"
+    standup = "!sh -c 'git log --pretty=oneline --abbrev-commit --reverse --no-merges --branches=* --date=local --since=\"yesterday 10:00AM\" --author=\"`git config --get user.name`\"'"
+    week = "!sh -c 'git log --pretty=oneline --abbrev-commit --reverse --no-merges --branches=* --since=\"1 week ago\" --author=\"`git config --get user.name`\"'"
 
     fixup = !sh -c 'git commit --fixup=$1' -
     squash = !sh -c 'git commit --squash=$1' -
     ri = rebase --interactive --autosquash
 
     # difference to origin master
-    diff-master = log origin/master..master
+  diff-master = log --pretty=oneline --abbrev-commit origin/master..master
 
     # stash shortcuts
     sp = stash pop

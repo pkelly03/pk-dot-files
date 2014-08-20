@@ -169,6 +169,9 @@ alias ackgo="ack --go"
 alias ackjade="ack --jade"
 alias ackhtml="ack --html"
 
+# SmartSteps
+alias ss="cd /Users/paulkelly/equalexperts/TelefonicaInsightServices/smartsteps"
+
 # Homeoffice aliases
 alias t='stt_both'
 alias catalogue='cd /Users/paulkelly/repos/homeoffice-cjp/catalogue && t "catalogue:3000" && ./run.sh'
