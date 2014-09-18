@@ -4,8 +4,8 @@ function mkd() {
 }
 
 # Ports
-function freeport {
-	lsof -i tcp:"$@"
+function whatpid {
+	lsof -i tcp:$@
 }
 
 setTerminalText () {
@@ -18,15 +18,16 @@ stt_both  () { setTerminalText 0 $@; }
 
 function start() {
 	echo '1. Open iterm'	
-	echo '2. Divide into 8 screens'	
-	echo '3. Screen 1 - t mongo && mongod'	
-	echo '4. Screen 2 - t misc && mailcatcher && grunt d'	
-	echo '5. Screen 3 - worldpay && ./run.sh'	
-	echo '6. Screen 4 - pva && ./run.sh'	
-	echo '7. Screen 5 - catalogue && ./run.sh'	
-	echo '8. Screen 6 - application && ./run.sh'	
-	echo '9. Screen 7 - customer && ./run.sh'	
-	echo '9. Screen 8 - admin && ./run.sh'	
+	echo '2. Divide into 9 screens'	
+	echo '3. Screen 1 - mongo-server'	
+	echo '4. Screen 2 - mailcatcher'
+	echo '5. Screen 3 - worldpay'
+	echo '6. Screen 4 - pva'	
+	echo '7. Screen 5 - catalogue'	
+	echo '8. Screen 6 - application'	
+	echo '9. Screen 7 - customer'	
+	echo '9. Screen 8 - admin'	
+	echo '10. Screen 9 - grunt-dev'	
 }
 
 function setjdk() {  

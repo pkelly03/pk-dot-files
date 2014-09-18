@@ -109,6 +109,8 @@
     # https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
     updatehooks = !rm -rf $(git rev-parse --git-dir)/hooks && cp -a ~/git/templates/hooks $(git rev-parse --git-dir) && chmod +x $(git rev-parse --git-dir)/hooks/*
 
+	jira = !sh -c 'git log --oneline $@ | egrep -o [A-Z]+-[0-9]+ | sort | uniq' -
+
 [color]
     diff = auto
     status = auto
