@@ -14,16 +14,39 @@
     cnv = commit --no-verify
     co = checkout
     br = branch -v
+    
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+
     # show a pretty log graph
     lg = log --graph --pretty=oneline --abbrev-commit --decorate
+    
+	ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+
     # slight variation of pretty log graph
     l = log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    
     # show files that have changed between two branches (git dbr master..branch)
     dbr = diff --name-status
+
+	#diff last commit
+    dlc = diff --cached HEAD^
+
     # show diff of cached files
     dc = diff --cached
+    
     # show changed files for a commit
     show-file-name = show --pretty="format:" --name-only
+    
+    #list modified files in last commit
+    dlast = "!git ll -1"
+
+    files-changed = "!sh -c 'git ll --since=\"yesterday 10:00AM\" --author=\"`git config --get user.name`\"'"
+
+    # difference to origin master
+    diff-master = log --pretty=oneline --abbrev-commit origin/master..master
+
+	diffr  = "!f() { git diff "$1"^.."$1"; }; f"
+	
     # show what I did today
     standup = "!sh -c 'git log --pretty=oneline --abbrev-commit --reverse --no-merges --branches=* --date=local --since=\"yesterday 10:00AM\" --author=\"`git config --get user.name`\"'"
     week = "!sh -c 'git log --pretty=oneline --abbrev-commit --reverse --no-merges --branches=* --since=\"1 week ago\" --author=\"`git config --get user.name`\"'"
@@ -32,8 +55,6 @@
     squash = !sh -c 'git commit --squash=$1' -
     ri = rebase --interactive --autosquash
 
-    # difference to origin master
-  diff-master = log --pretty=oneline --abbrev-commit origin/master..master
 
     # stash shortcuts
     sp = stash pop
@@ -67,7 +88,7 @@
     # remove grep - Remove found files that are NOT under version control
     rg = "!sh -c 'git ls-files --others --exclude-standard | grep $1 | xargs rm' -"
 
-    done = fetch && git rebase origin/master && git checkout master && git merge @{-1}
+    done = fetch && git rebase origin/master && git checkout master && git merge @HEAD~1 
 
     # Other useful aliases:
     unstage = reset HEAD
@@ -79,6 +100,11 @@
     br = branch
     b = branch
 
+	#reset commands
+    rh = reset --hard
+    rh1 = reset HEAD@{0} --hard
+    rh2 = reset HEAD^^ --hard
+
     head = !git l -1
     h = !git head
     hp = "!source ~/.githelpers && show_git_head"
@@ -89,7 +115,7 @@
     # git changelog 0.4.5...0.5.3 using tags or tree-ish references
     whatchanged = log --pretty=oneline --no-merges
     # Packing files added in a changeset
-    pack = git show --pretty="format:" --name-only --diff-filter=A rev-sha | xargs zip -r0 rev-sha.zip
+    pack = !git show --pretty="format:" --name-only --diff-filter=A rev-sha -- | xargs zip -r0 rev-sha.zip
     who = shortlog -n -s --no-merges
     cleanup = !git remote prune origin && git gc && git clean -dfx && git stash clear
     rmb = !sh -c 'git branch -D $1 && git push origin :$1' -
@@ -132,7 +158,7 @@
 [color "status"]
     added = green bold
     changed = yellow bold
-    untracked = red
+    untracked = red bold
 
 [color "sh"]
     branch = yellow
