@@ -20,10 +20,8 @@
     # show a pretty log graph
     lg = log --graph --pretty=oneline --abbrev-commit --decorate
     
-	ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
-
     # slight variation of pretty log graph
-    l = log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    ls = log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
     
     # show files that have changed between two branches (git dbr master..branch)
     dbr = diff --name-status
@@ -35,7 +33,7 @@
     dc = diff --cached
     
     # show changed files for a commit
-    show-file-name = show --pretty="format:" --name-only
+    diff-files-today = show --pretty="format:" --name-only
     
     #list modified files in last commit
     dlast = "!git ll -1"
@@ -45,8 +43,9 @@
     # difference to origin master
     diff-master = log --pretty=oneline --abbrev-commit origin/master..master
 
-	diffr  = "!f() { git diff "$1"^.."$1"; }; f"
-	
+    diff-rev  = "!f() { git diff "$1"^.."$1"; }; f"
+	diff-rev-files  = "!f() { git diff --name-status "$1"^.."$1"; }; f"
+
     # show what I did today
     standup = "!sh -c 'git log --pretty=oneline --abbrev-commit --reverse --no-merges --branches=* --date=local --since=\"yesterday 10:00AM\" --author=\"`git config --get user.name`\"'"
     week = "!sh -c 'git log --pretty=oneline --abbrev-commit --reverse --no-merges --branches=* --since=\"1 week ago\" --author=\"`git config --get user.name`\"'"
