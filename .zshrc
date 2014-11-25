@@ -13,7 +13,6 @@ ZSH_THEME="robbyrussell"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
-
 # Uncomment this to disable bi-weekly auto-update checks
 # DISABLE_AUTO_UPDATE="true"
 
@@ -72,3 +71,5 @@ source ~/bin/z/z.sh
 
 # added by travis gem
 [ -f /Users/paulkelly/.travis/travis.sh ] && source /Users/paulkelly/.travis/travis.sh
+
+setjdk 1.7

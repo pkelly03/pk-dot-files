@@ -34,7 +34,6 @@ fi
 # git aliases
 alias gpr="git pull --rebase"
 
-
 # List all files colorized in long format
 alias l="ls -l ${colorflag}"
 
@@ -95,7 +94,7 @@ alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'
 
 # Empty the Trash on all mounted volumes and the main HDD
-# Also, clear Apple’s System Logs to improve shell startup speed
+# Also, clear iApple’s System Logs to improve shell startup speed
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
 
 # Show/hide hidden files in Finder
@@ -174,18 +173,23 @@ alias ss="cd /Users/paulkelly/equalexperts/TelefonicaInsightServices/smartsteps"
 
 # Homeoffice aliases
 alias t='stt_both'
-alias catalogue='cd /Users/paulkelly/repos/homeoffice-cjp/catalogue && t "catalogue:3000" && ./run.sh'
 alias application='cd /Users/paulkelly/repos/homeoffice-cjp/application'
+alias core='cd /Users/paulkelly/repos/homeoffice-cjp/application-core'
 alias customer='cd /Users/paulkelly/repos/homeoffice-cjp/customer'
-alias grunt-dev='/Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && t "grunt dev" && grunt d'
-alias admin='cd /Users/paulkelly/repos/homeoffice-cjp/admin && t "admin:9000" && ./run.sh'
-alias endtoend='cd /Users/paulkelly/repos/homeoffice-cjp/endtoend && t endtoend'
-alias worldpay='cd /Users/paulkelly/repos/homeoffice-cjp/worldpaystub && t worldpaystub && ./run.sh'
-alias pva='cd /Users/paulkelly/repos/homeoffice-cjp/pvastub && t pvastub && ./run.sh'
-alias proviso='cd /Users/paulkelly/repos/homeoffice-cjp/provisostub && t provisstub && ./run.sh'
-alias cjp='cd /Users/paulkelly/repos/homeoffice-cjp'
+alias customer-debug='customer && SBT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 ./run.sh'
+alias grunt-dev='/Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && grunt d'
+alias admin='cd /Users/paulkelly/repos/dcj-product-catalogue/admin'
+alias run-admin='admin && t "admin:9000" && ./run.sh'
+alias catalogue='cd /Users/paulkelly/repos/dcj-product-catalogue/catalogue'
+alias e2e='cd /Users/paulkelly/repos/dcj-end-to-end-tests/endtoend'
+alias infra='cd /Users/paulkelly/repos/dcj-infra'
+alias submission='cd /Users/paulkelly/repos/homeoffice-cjp/submission'
+alias worldpay='cd /Users/paulkelly/repos/homeoffice-cjp/worldpaystub'
+alias pva='cd /Users/paulkelly/repos/homeoffice-cjp/pvastub'
+alias proviso='cd /Users/paulkelly/repos/homeoffice-cjp/provisostub'
+alias dcj='cd /Users/paulkelly/repos/homeoffice-cjp'
 alias mongo-server='t mongo && mongod'
-alias copy='cd /Users/paulkelly/repos/dcj-copy-editor && t copy-editor'
+alias copy='cd /Users/paulkelly/repos/dcj-copy-editor'
 alias source-map-clean='cd /Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && rm public/javascripts/app.map && grunt jst && grunt uglify && grunt-dev'
 
 # Misc 
@@ -194,4 +198,6 @@ alias mytree="find . -type d | sed -e 1d -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e
 # Digital ocean aliases
 alias mean='ssh root@107.170.140.133'
 
-
+# Jekyll Aliases
+alias jks='jekyll serve --watch'
+alias jkb='jekyll build'
