@@ -26,3 +26,4 @@ export JAVA_HOME="`/usr/libexec/java_home -v '1.7*'`"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export JAVA_OPTS='-Xms2048m -Xrs -XX:MaxPermSize=512m'
 export M2_HOME=/usr/local/Cellar/maven
+export SBT_OPTS="-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"

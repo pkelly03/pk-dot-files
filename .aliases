@@ -173,30 +173,33 @@ alias ss="cd /Users/paulkelly/equalexperts/TelefonicaInsightServices/smartsteps"
 
 # Homeoffice aliases
 alias t='stt_both'
-alias application='cd /Users/paulkelly/repos/homeoffice-cjp/application'
-alias core='cd /Users/paulkelly/repos/homeoffice-cjp/application-core'
-alias customer='cd /Users/paulkelly/repos/homeoffice-cjp/customer'
+alias application='cd /Users/paulkelly/ee/homeoffice-cjp/application'
+alias core='cd /Users/paulkelly/ee/homeoffice-cjp/application-core'
+alias customer='cd /Users/paulkelly/ee/homeoffice-cjp/customer'
 alias customer-debug='customer && SBT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 ./run.sh'
-alias grunt-dev='/Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && grunt d'
-alias admin='cd /Users/paulkelly/repos/dcj-product-catalogue/admin'
+alias grunt-dev='/Users/paulkelly/ee/homeoffice-cjp/customer/cjp-customer && grunt d'
+alias admin='cd /Users/paulkelly/ee/dcj-product-catalogue/admin'
 alias run-admin='admin && t "admin:9000" && ./run.sh'
-alias catalogue='cd /Users/paulkelly/repos/dcj-product-catalogue/catalogue'
-alias e2e='cd /Users/paulkelly/repos/dcj-end-to-end-tests/endtoend'
-alias infra='cd /Users/paulkelly/repos/dcj-infra'
-alias submission='cd /Users/paulkelly/repos/homeoffice-cjp/submission'
-alias worldpay='cd /Users/paulkelly/repos/homeoffice-cjp/worldpaystub'
-alias pva='cd /Users/paulkelly/repos/homeoffice-cjp/pvastub'
-alias proviso='cd /Users/paulkelly/repos/homeoffice-cjp/provisostub'
-alias dcj='cd /Users/paulkelly/repos/homeoffice-cjp'
+alias catalogue='cd /Users/paulkelly/ee/dcj-product-catalogue/catalogue'
+alias e2e='cd /Users/paulkelly/ee/dcj-end-to-end-tests/endtoend'
+alias infra='cd /Users/paulkelly/ee/dcj-infra'
+alias submission='cd /Users/paulkelly/ee/homeoffice-cjp/submission'
+alias worldpay='cd /Users/paulkelly/ee/homeoffice-cjp/worldpaystub'
+alias pva='cd /Users/paulkelly/ee/homeoffice-cjp/pvastub'
+alias proviso='cd /Users/paulkelly/ee/homeoffice-cjp/provisostub'
+alias dcj='cd /Users/paulkelly/ee/homeoffice-cjp'
 alias mongo-server='t mongo && mongod'
-alias copy='cd /Users/paulkelly/repos/dcj-copy-editor'
-alias source-map-clean='cd /Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && rm public/javascripts/app.map && grunt jst && grunt uglify && grunt-dev'
+alias copy='cd /Users/paulkelly/ee/dcj-copy-editor'
+alias source-map-clean='cd /Users/paulkelly/ee/homeoffice-cjp/customer/cjp-customer && rm public/javascripts/app.map && grunt jst && grunt uglify && grunt-dev'
 
 # Misc 
 alias mytree="find . -type d | sed -e 1d -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|-/'"
 
 # Digital ocean aliases
-alias mean='ssh root@107.170.140.133'
+alias ssh-do= 'ssh root@178.62.1.231'
+
+# Java/Jdk aliases
+alias list-jdk='/usr/libexec/java_home -V'
 
 # Jekyll Aliases
 alias jks='jekyll serve --watch'
