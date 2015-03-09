@@ -31,6 +31,10 @@ else # OS X `ls`
 	colorflag="-G"
 fi
 
+# zshrc changes
+alias confige='vi ~/.zshrc'
+alias configu='. ~/.zshrc'
+
 # git aliases
 alias gpr="git pull --rebase"
 
@@ -204,3 +208,7 @@ alias list-jdk='/usr/libexec/java_home -V'
 # Jekyll Aliases
 alias jks='jekyll serve --watch'
 alias jkb='jekyll build'
+
+# Docker aliases
+alias remove-containers='docker rm `docker ps -q -a`'
+alias stop-containers='docker stop `docker ps -q -a`'
