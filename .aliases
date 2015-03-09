@@ -31,6 +31,10 @@ else # OS X `ls`
 	colorflag="-G"
 fi
 
+# zshrc changes
+alias confige='vi ~/.zshrc'
+alias configu='. ~/.zshrc'
+
 # git aliases
 alias gpr="git pull --rebase"
 
@@ -173,12 +177,12 @@ alias ss="cd /Users/paulkelly/equalexperts/TelefonicaInsightServices/smartsteps"
 
 # Homeoffice aliases
 alias t='stt_both'
-alias application='cd /Users/paulkelly/repos/homeoffice-cjp/application'
 alias core='cd /Users/paulkelly/repos/homeoffice-cjp/application-core'
 alias customer='cd /Users/paulkelly/repos/homeoffice-cjp/customer'
+alias payments='cd /Users/paulkelly/repos/dcj-payments/payments'
 alias customer-debug='customer && SBT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 ./run.sh'
 alias grunt-dev='/Users/paulkelly/repos/homeoffice-cjp/customer/cjp-customer && grunt d'
-alias admin='cd /Users/paulkelly/repos/dcj-product-catalogue/admin'
+alias admin='cd /Users/paulkelly/repos/dcj-admin'
 alias run-admin='admin && t "admin:9000" && ./run.sh'
 alias catalogue='cd /Users/paulkelly/repos/dcj-product-catalogue/catalogue'
 alias e2e='cd /Users/paulkelly/repos/dcj-end-to-end-tests/endtoend'
@@ -201,3 +205,7 @@ alias mean='ssh root@107.170.140.133'
 # Jekyll Aliases
 alias jks='jekyll serve --watch'
 alias jkb='jekyll build'
+
+# Docker aliases
+alias remove-containers='docker rm `docker ps -q -a`'
+alias stop-containers='docker stop `docker ps -q -a`'
