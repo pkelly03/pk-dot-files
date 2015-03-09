@@ -16,18 +16,191 @@ setTerminalText () {
 
 stt_both  () { setTerminalText 0 $@; }
 
+function copy-hooks() {
+  echo "\n>>>> Copying hook to dcj\n"
+  cp ~/bin/commit-msg /Users/paulkelly/repos/homeoffice-cjp/.git/hooks
+
+  echo "\n>>>> Copying hook to catalogue\n"
+  cp ~/bin/commit-msg /Users/paulkelly/repos/dcj-product-catalogue/.git/hooks
+  
+  echo "\n>>>> Copying hook to Infra\n"
+  cp ~/bin/commit-msg /Users/paulkelly/repos/dcj-infra/.git/hooks
+
+  echo "\n>>>> Copying hook to E2E\n"
+  cp ~/bin/commit-msg /Users/paulkelly/repos/dcj-end-to-end-tests/.git/hooks
+}
+
+function status() {
+  
+  echo "\n>>>>> Product Catalogue - Status\n"
+  catalogue && gst
+  echo "\n"
+
+  echo "\n>>>>> DCJ - Status\n"
+  dcj && gst
+  echo "\n"
+
+
+  echo "\n>>>>> Payments - Status\n"
+  payments && gst
+  echo "\n"
+
+  echo "\n>>>>> Infra - Status\n"
+  infra && gst
+  echo "\n"
+
+  echo "\n>>>>> E2E - Status\n"
+  e2e && gst
+  echo "\n"
+
+}
+
+function build-core() {
+  echo "\n>>>> Building core\n"
+  core && ./sbt clean && ./build.sh
+}
+
+function pull() {
+  echo "\n>>>>> Product Catalogue\n"
+  catalogue && git pull --rebase
+  echo "\n"
+  
+  echo "\n>>>>> DCJ\n"
+  dcj && git pull --rebase
+  echo "\n"
+
+  echo "\n>>>>> Payments \n"
+  payments && git pull --rebase
+  echo "\n"
+
+  echo "\n>>>>> Infra\n"
+  infra && git pull --rebase
+  echo "\n"
+
+  echo "\n>>>>> E2E\n"
+  e2e && git pull --rebase
+  echo "\n"
+}
+
+function stash() {
+
+  echo "\n>>>>> Product Catalogue - Start"
+  catalogue && git stash
+  echo "\n>>>>> Product Catalogue - finish"
+  
+  echo "\n>>>>> DCJ - Start"
+  dcj && git stash
+  echo "\n>>>>> DCJ - finish"
+
+  echo "\n>>>>> Infra - Start"
+  infra && git stash
+  echo "\n>>>>> Infra - finish"
+
+  echo "\n>>>>> E2E - Start"
+  catalogue && git stash
+  echo "\n>>>>> E2E - finish"
+
+}
+
+
+function unstash() {
+
+  echo "\n>>>>> Product Catalogue - Start"
+  catalogue && git stash apply
+  echo "\n>>>>> Product Catalogue - finish"
+  
+  echo "\n>>>>> DCJ - Start"
+  dcj && git stash apply
+  echo "\n>>>>> DCJ - finish"
+
+  echo "\n>>>>> Infra - Start"
+  infra && git stash apply
+  echo "\n>>>>> Infra - finish"
+
+  echo "\n>>>>> E2E - Start"
+  catalogue && git stash apply
+  echo "\n>>>>> E2E - finish"
+
+}
+
+function setup-tooling() {
+  start
+  mailcatcher
+  /usr/local/bin/mongod & tail -f /usr/local/var/log/mongodb/mongo.log
+  t "Mongo"
+}
+
+function start-application() {
+  application
+  echo "updating db.."
+  ..
+  ./updatedb.sh
+  cd -
+  t "App:3010"
+  ./run.sh
+}
+
+function start-admin() {
+  admin
+  t "Admin:9000"
+  ./run.sh
+}
+
+function start-customer() {
+  customer
+  t Cust:3010
+  ./run.sh
+}
+
+function start-catalogue() {
+  catalogue
+  echo "updating catalogue db.."
+  ./updatedb.sh
+  t "Cata:3000"
+  ./run.sh
+}
+
+function start-submission() {
+  submission
+  echo "updating submission db.."
+  ./updatedb.sh
+  t "Subm:3020"
+  ./run.sh
+}
+
+function start-pva() {
+  pva
+  t "PVA:9030"
+  ./run.sh
+}
+
+function start-proviso() {
+  proviso
+  t "Prov:3021"
+  ./run.sh
+}
+
+function start-worldpay() {
+  worldpay
+  t "WPay:3021"
+  ./run.sh
+}
+
+function update-sponsors() {
+  dcj
+  ./updateSponsors.sh
+}
+
 function start() {
-	echo '1. Open iterm'	
-	echo '2. Divide into 9 screens'	
-	echo '3. Screen 1 - mongo-server'	
-	echo '4. Screen 2 - mailcatcher'
-	echo '5. Screen 3 - worldpay'
-	echo '6. Screen 4 - pva'	
-	echo '7. Screen 5 - catalogue'	
-	echo '8. Screen 6 - application'	
-	echo '9. Screen 7 - customer'	
-	echo '9. Screen 8 - admin'	
-	echo '10. Screen 9 - grunt-dev'	
+	echo 'tab 1. start-application'	
+	echo 'tab 2. start-customer'	
+	echo 'tab 3. start-admin'	
+	echo 'tab 4. start-catalogue'
+	echo 'tab 5. start-submission'
+	echo 'tab 6. start-pva'	
+	echo 'tab 7. start-proviso'	
+	echo 'tab 8. start-worldpay'	
+	echo 'tab 9. update-sponsors'	
 }
 
 function setjdk() {  
