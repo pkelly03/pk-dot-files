@@ -1,59 +1,36 @@
-set nocompatible
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-" Load Vundle plugins {{{1
-" ------------------------
-"
-" Vundle config
-"
-filetype off
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
 
-" let Vundle manage Vundle
-Bundle 'gmarik/vundle'
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
 
-" Repos on github
-Bundle 'mileszs/ack.vim'
-Bundle 'rking/ag.vim'
-" vim-fugitive adds to tags - not sure why
-Bundle 'tpope/vim-fugitive' 	
+Plugin 'godlygeek/tabular'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'pangloss/vim-javascript'
+Plugin 'tpope/vim-markdown'
+Plugin 'mattn/emmet-vim'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'michaeljsmith/vim-indent-object'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'goldfeld/vim-seek'
 
-Bundle 'tpope/vim-commentary'
-Bundle 'godlygeek/tabular'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
-
-Bundle 'altercation/vim-colors-solarized'
-
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'pangloss/vim-javascript'
-Bundle 'tpope/vim-markdown'
-Bundle 'groenewege/vim-less'
-
-Bundle 'kchmck/vim-coffee-script'
-
-Bundle 'mattn/zencoding-vim'
-
-Bundle 'vim-scripts/VimClojure'
-Bundle 'derekwyatt/vim-scala'
-
-Bundle 'kana/vim-textobj-user'
-Bundle 'nelstrom/vim-textobj-rubyblock'
-Bundle 'michaeljsmith/vim-indent-object'
-
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'goldfeld/vim-seek'
-
-" To consider:
-
-" Bundle 'tpope/vim-eunuch'
-
-" Consider tabline to display number in tab
-
-" ------------------------
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 let mapleader = ","
 " noremap \ ,
@@ -129,7 +106,6 @@ set sidescroll=1
 set sidescrolloff=5
 
 set background=dark
-colorscheme solarized
 
 let NERDTreeWinSize=50
 
@@ -197,6 +173,9 @@ cnoremap <C-n> <Down>
 nnoremap <leader>k :Ack! 
 nnoremap <leader>a :Ag 
 
+map <F2> :.w !pbcopy<CR><CR>
+map <F3> :r !pbpaste<CR>
+
 map <leader>t :NERDTreeToggle<CR>
 map <leader>f :NERDTreeFind<CR>
 
@@ -258,10 +237,6 @@ let g:ctrlp_switch_buffer = 'et'
 
 " Disable the startup message
 set shortmess+=I
-
-" Plugin config {{{1
-
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 " Lifted from Practical Vim {{{1
 
