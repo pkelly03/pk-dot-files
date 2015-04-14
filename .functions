@@ -35,28 +35,65 @@ function copy-hooks() {
 
 function status() {
   
-  echo "\n>>>>> Product Catalogue - Status\n"
-  catalogue && gst
+  currentDir=`pwd`  
+  catalogue && statusProject catalogue
+  admin && statusProject admin
+  dcj && statusProject dcj
+  payments && statusProject payments
+  submission && statusProject submission
+  infra && statusProject infra
+  e2e && statusProject e2e
+  cidstub && statusProject cidstub
+  cd $currentDir
+}
+
+function statusProject() {
+      git status -s | grep -v '??' &> /dev/null && {
+        echo -ne "$1 has changes\n"
+      }
+}
+
+
+function cleanAndBuild() {
+  
+  echo "\n>>>>> Product Catalogue - Clean & Build\n"
+  catalogue && ./sbt clean && ./build.sh
   echo "\n"
 
-  echo "\n>>>>> Admin - Status\n"
-  admin && gst
+  echo "\n>>>>> Admin - Clean & Build\n"
+  admin && ./sbt clean && ./build.sh
   echo "\n"
 
-  echo "\n>>>>> DCJ - Status\n"
-  dcj && gst
+  echo "\n>>>>> Customer - Clean & Build\n"
+  customer &&  ./sbt clean && ./build.sh
   echo "\n"
 
-  echo "\n>>>>> Payments - Status\n"
-  payments && gst
+  echo "\n>>>>> Payments - Clean & Build\n"
+  payments &&  ./sbt clean && ./build.sh
   echo "\n"
 
-  echo "\n>>>>> Infra - Status\n"
-  infra && gst
+  echo "\n>>>>> Submission - Clean & Build\n"
+  submission &&  ./sbt clean && ./build.sh
   echo "\n"
 
-  echo "\n>>>>> E2E - Status\n"
-  e2e && gst
+  echo "\n>>>>> PVA Stub - Clean & Build\n"
+  pva &&  ./sbt clean && ./build.sh
+  echo "\n"
+
+  echo "\n>>>>> Proviso Stub - Clean & Build\n"
+  proviso && ./sbt clean && ./build.sh
+  echo "\n"
+ 
+  echo "\n>>>>> IHS Stub - Clean & Build\n"
+  ihs && ./sbt clean && ./build.sh
+  echo "\n"
+ 
+  echo "\n>>>>> E2E - Clean & Build\n"
+  e2e &&  ./sbt clean && ./build.sh
+  echo "\n"
+
+  echo "\n>>>>> Cid Stub - Clean & Build\n"
+  cidstub &&  ./sbt clean && ./build.sh
   echo "\n"
 
 }
@@ -350,4 +387,3 @@ gifify() {
     echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
   fi
 }
-

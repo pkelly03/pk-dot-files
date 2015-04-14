@@ -82,7 +82,7 @@ set nostartofline
 set confirm
 
 " Enable use of the mouse for all modes
-set mouse=a
+set mouse=v
 
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200
