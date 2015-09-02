@@ -5,7 +5,6 @@
 { "keys": ["ctrl+shift+j"], "command": "prettify_json" },
 { "keys": ["super+shift+d"], "command": "duplicate_line" },
 { "keys": ["super+shift+r"], "command": "plain_tasks_archive" },
-{ "keys": ["super+w"], "command": "find_under_expand" },
 { "keys": ["super+alt+l"], "command": "js_format"},
 { "keys": ["super+f9"], "command": "sublimelinter", "args": {"action": "lint"} },
 { "keys": ["super+f8"], "command": "find_next_lint_error" },
@@ -41,7 +40,7 @@
 { "keys": ["super+shift+g"], "command": "grunt" },
 { "keys": ["alt+super+j"], "command": "fixmyjs" },
 { "keys": ["ctrl+alt+l"], "command": "history_compare" },
-{ "keys": ["super+shift+space"], "command": "expand_region" },
+{ "keys": ["super+w"], "command": "expand_region" },
 {
   "keys": ["super+u"],
   "command": "expand_region",
