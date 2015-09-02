@@ -44,13 +44,13 @@ DISABLE_AUTO_TITLE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git mvn git-extras npm scala history brew sbt)
+plugins=(git history brew sbt vagrant docker)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/Users/paulkelly/docker:/Users/paulkelly/google-cloud-sdk/bin:/usr/local/bin:/usr/local/share/npm/bin:/Users/paulkelly/Scripts:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/share/python:/Users/paulkelly/.ec2/bin:~/"
+export PATH="/Users/paulkelly/docker:/Users/paulkelly/google-cloud-sdk/bin:/usr/local/bin:/usr/local/share/npm/bin:/Users/paulkelly/Scripts:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/share/python:/Users/paulkelly/.ec2/bin:~/:/Users/paulkelly/homebrew/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export EDITOR='vim'
@@ -59,8 +59,6 @@ source ~/.path
 source ~/.exports
 source ~/.aliases
 source ~/.functions
-source ~/.extra
-source ~/bin/z/z.sh
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -71,5 +69,6 @@ source ~/bin/z/z.sh
 
 # added by travis gem
 [ -f /Users/paulkelly/.travis/travis.sh ] && source /Users/paulkelly/.travis/travis.sh
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 
-setjdk 1.7
+setjdk 1.7.0_75
