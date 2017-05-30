@@ -18,8 +18,6 @@
 { "keys": ["f1"], "command": "toggle_overwrite" },
 { "keys": ["ctrl+shift+a"], "command": "close_others" },
 { "keys": ["super+forward_slash"], "command": "toggle_comment" },
-{ "keys": ["shift+f3"], "command": "show_overlay", "args":{"overlay": "command_palette", "text": "Angular"} },
-{ "keys": ["super+g"], "command": "show_overlay",  "args":{"overlay": "goto", "text": ":"}},
 { "keys": ["ctrl+left"], "command": "prev_view" },
 { "keys": ["ctrl+right"], "command": "next_view" },
 { "keys": ["ctrl+alt+f"], "command": "js_format"},
