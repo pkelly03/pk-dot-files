@@ -13,7 +13,6 @@ alias dt="cd ~/Desktop"
 alias p="cd ~/Projects"
 alias g="git"
 alias h="history"
-alias j="jobs"
 alias v="vim"
 alias m="mate ."
 alias s="subl ."
@@ -37,6 +36,7 @@ alias configu='. ~/.zshrc'
 
 # git aliases
 alias gpr="git pull --rebase"
+alias gcm="git commit -m"
 
 # List all files colorized in long format
 alias l="ls -l ${colorflag}"
@@ -224,3 +224,4 @@ alias jkb='jekyll build'
 # Docker aliases
 alias remove-containers='docker rm `docker ps -q -a`'
 alias stop-containers='docker stop `docker ps -q -a`'
+alias dc='docker-compose'
