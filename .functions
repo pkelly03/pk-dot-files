@@ -1,6 +1,263 @@
+#!/bin/bash
+
+functions run-integration-test() {
+  echo '#################'
+  echo 'Runninng Integration test:' "$@"
+  echo '#################'
+  task integration-test:plain -- "$@"
+}
+
+functions leadflo-seed() {
+  cd ~/
+  j leadflo
+  echo '#################'
+  echo 'Generating schema'
+  echo '#################'
+  docker-compose exec api bash -c "php artisan migrate --seed"
+  echo '#################'
+  echo 'Generating client'
+  echo '#################'
+  docker-compose exec api bash -c "php artisan test:seed --client-id=1"
+  echo '#################'
+  echo 'Generating automations'
+  echo '#################'
+  docker-compose exec api bash -c "php artisan automations:create-campaign 1"
+
+}
+
+
+function old-docker-cleanup(){
+  # stop all running containers
+  echo '####################################################'
+  echo 'Stopping running containers (if available)...'
+  echo '####################################################'
+  docker stop $(docker ps -aq)
+
+  # remove all stopped containers
+  echo '####################################################'
+  echo 'Removing containers ..'
+  echo '####################################################'
+  docker rm $(docker ps -aq)
+
+
+  # remove all images
+  echo '####################################################'
+  echo 'Removing images ...'
+  echo '####################################################'
+  docker rmi $(docker images -q)
+
+  # remove all stray volumes if any
+  echo '####################################################'
+  echo 'Revoming docker container volumes (if any)'
+  echo '####################################################'
+  docker volume rm $(docker volume ls -q)
+
+}
+
+function docker-cleanup-nuclear() {
+
+  # remove all stray volumes if any
+  echo '####################################################'
+  echo 'Nuclear'
+  echo '####################################################'
+  docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
+  docker rmi $(docker images -q) 2>/dev/null || echo "No more images to remove."
+
+}
+
+function docker-cleanup-stopped() {
+
+  # remove all stray volumes if any
+  echo '####################################################'
+  echo 'Stopped'
+  echo '####################################################'
+  docker rm -vf $(docker ps -a | grep "Exited" | awk '{print $1}') 2>/dev/null || echo "No stopped containers to remove."
+
+}
+
+function docker-cleanup-purge() {
+
+  # remove all stray volumes if any
+  echo '####################################################'
+  echo 'Stopped'
+  echo '####################################################'
+  # Attempt to remove running containers that are using the images we're trying to purge first.
+  (docker rm -vf $(docker ps -a | grep "$2/\|/$2 \| $2 \|:$2\|$2-\|$2:\|$2_" | awk '{print $1}') 2>/dev/null || echo "No containers using the \"$2\" image, continuing purge.") &&\
+  # Remove all images matching arg given after "--purge"
+  docker rmi $(docker images | grep "$2/\|/$2 \| $2 \|$2 \|$2-\|$2_" | awk '{print $3}') 2>/dev/null || echo "No images matching \"$2\" to purge."
+
+}
+
+function docker-bash-api() {
+  cd ~/
+  j leadflo
+  docker-compose exec api bash
+}
+
+function docker-stop-all() {
+  cd ~/
+  j leadflo
+  docker stop $(docker ps -a -q)
+}
+
+function docker-bash() {
+  cd ~/
+  j leadflo
+  docker exec -it "$@" bash
+}
+
+function start-dev-services() {
+  cd ~/
+  j leadflo && docker-compose -f docker-compose.yml up
+}
+
+function rebuild-dev-services() {
+  cd ~/
+  j leadflo && docker-compose -f docker-compose.yml build
+}
+
+
+function start-test-services() {
+  cd ~/
+  j leadflo && docker-compose -f docker-compose.test.yml up
+}
+
+function docker-container-names() {
+    docker ps -a --format "{{.Names}}" | xargs
+}
+
+# Get the IP address of a particular container
+function dip() {
+    local network
+    network='YOUR-NETWORK-HERE'
+    docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$@"
+}
+
+function dipall() {
+    for container_name in $(docker-container-names);
+    do
+        local container_ip=$(dip $container_name)
+        if [[ -n "$container_ip" ]]; then
+            echo $(dip $container_name) " $container_name"
+        fi
+    done | sort -t . -k 3,3n -k 4,4n
+}
+
+
+function docker-ip() {
+  echo "Finding IP address for docker container: " + $1
+  docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$@"
+}
+function mc() {
+  mcfly search $1
+}
+
+function thefresh_17() {
+  sdk use java 17.0.4-oracle
+  jenv global oracle64-17.0.4 
+  jenv doctor
+}
+
+function leadflow_11() {
+  sdk use java 11.0.15.1-librca
+  jenv global 11.0.15.1
+  jenv doctor
+}
+
+function rv() {
+  echo "Running rover on schema " + $1
+  cd /Users/pakelly/code/sstk/shutterstock-service-homer/src/main/resources/schema
+  rover graph check Gateway-0b4zi@dev --schema ./schema.graphqls
+}
+
+function media-id() {
+  echo "converting mason id " + $1
+  cd /Users/pakelly/code/sstk/media-id
+  ./node_modules/.bin/media-id encode sstk.submittedPhotos $1
+  cd -
+}
+
+function media-id-list() {
+  echo "converting mason id " + $1
+  cd /Users/pakelly/code/sstk/media-id
+  ./node_modules/.bin/media-id list
+  cd -
+}
+
+function list-topics() {
+  local server_port="${1:-localhost:9092}"
+  cd $KAFKA_HOME
+  ./bin/kafka-topics.sh --bootstrap-server $server_port --list --exclude-internal
+}
+
+function list-consumer-groups() {
+  local server_port="${1:-localhost:9092}"
+
+  cd $KAFKA_HOME
+
+  ./bin/kafka-consumer-groups.sh --bootstrap-server $server_port --list
+}
+
+
+
+function produce-message() {
+  cd $KAFKA_HOME
+  ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic $1 --property "parse.key=true" --property "key.separator=:"
+}
+function create-topic() {
+  cd $KAFKA_HOME
+  ./bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --partitions 3 --replication-factor 1 --topic $1
+}
+
+function kafdrop() {
+  local server_port="${1:-localhost:9092}"
+  echo "starts on http://localhost:9000/"
+  java -jar /Users/pakelly/tools/kafdrop-3.29/kafdrop-3.29.0.jar --kafka.brokerConnect=$server_port
+}
+
+function sonar-indexer() {
+ mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=Indexer \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=710ae5270dbab3cfcde288fd5e57660d7b124c18
+  -Dspring.profiles.active=dev,ephemeral,integration-test \
+  -Dsonar.language=java \
+  -Dsonar.sources=src/main/java \
+  -Dsonar.tests=src/test/java,src/it/java \
+  -Dsonar.java.binaries=target/classes/com/shutterstock \
+  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-all/jacoco.xml
+}
+
+function deep_work() {
+curl -d '{\"profile\": { \"status_text\": \"Deep work\", \"timeout\": 0 }}' -H \"Content-Type: application/json\" -H \"Authorization: Bearer SLACK_API_TOKEN\" -X POST https://slack.com/api/users.profile.set
+}
+
+
+
+function clean-jupyter() {
+  nbstripout $1
+}
+
+function fixtures() {
+ cp /Users/pakelly/code/shutterstock/indexing-aggregator/src/it/resources/fixture/reindex_one_component/*.json /Users/pakelly/code/shutterstock/indexing-aggregator/target/test-classes/fixture/reindex_one_component/
+}
+
 # Create a new directory and enter it
-function mkd() {
+function search() {
+  ag -G $1 $2
+}
+
+function parquet() {
+  parquet-tools cat $1 > parquet_output.md
+}
+
+function md() {
 	mkdir -p "$@" && cd "$@"
+}
+
+function mvnhomer() {
+  cd ~/code/shutterstock-service-homer
+  mvn -s search-java-build-tools/maven-settings.xml -Dmaven.artifact.threads=10 -Dspring.profiles.active=dev,local -Dconfig.resource=kafka-dev.conf -Dskip.repack=true verify 
 }
 
 # Ports
@@ -8,264 +265,22 @@ function whatpid {
 	lsof -i tcp:$@
 }
 
-setTerminalText () {
-    # echo works in bash & zsh
-    local mode=$1 ; shift
-    echo -ne "\033]$mode;$@\007"
-}
-
-stt_both  () { setTerminalText 0 $@; }
-
-function copy-hooks() {
-  echo "\n>>>> Copying hook to dcj\n"
-  cp ~/bin/commit-msg /Users/paulkelly/repos/homeoffice-cjp/.git/hooks
-
-  echo "\n>>>> Copying hook to catalogue\n"
-  cp ~/bin/commit-msg /Users/paulkelly/repos/dcj-product-catalogue/.git/hooks
-
-  echo "\n>>>> Copying hook to admin\n"
-  cp ~/bin/commit-msg /Users/paulkelly/repos/dcj-admin/.git/hooks
-
-  echo "\n>>>> Copying hook to Infra\n"
-  cp ~/bin/commit-msg /Users/paulkelly/repos/dcj-infra/.git/hooks
-
-  echo "\n>>>> Copying hook to E2E\n"
-  cp ~/bin/commit-msg /Users/paulkelly/repos/dcj-end-to-end-tests/.git/hooks
-}
-
-function status() {
-  
-  currentDir=`pwd`  
-  catalogue && statusProject catalogue
-  admin && statusProject admin
-  dcj && statusProject dcj
-  payments && statusProject payments
-  submission && statusProject submission
-  infra && statusProject infra
-  e2e && statusProject e2e
-  cidstub && statusProject cidstub
-  cd $currentDir
-}
-
-function statusProject() {
-      git status -s | grep -v '??' &> /dev/null && {
-        echo -ne "$1 has changes\n"
-      }
-}
-
-
-function cleanAndBuild() {
-  
-  echo "\n>>>>> Product Catalogue - Clean & Build\n"
-  catalogue && ./sbt clean && ./build.sh
-  echo "\n"
-
-  echo "\n>>>>> Admin - Clean & Build\n"
-  admin && ./sbt clean && ./build.sh
-  echo "\n"
-
-  echo "\n>>>>> Customer - Clean & Build\n"
-  customer &&  ./sbt clean && ./build.sh
-  echo "\n"
-
-  echo "\n>>>>> Payments - Clean & Build\n"
-  payments &&  ./sbt clean && ./build.sh
-  echo "\n"
-
-  echo "\n>>>>> Submission - Clean & Build\n"
-  submission &&  ./sbt clean && ./build.sh
-  echo "\n"
-
-  echo "\n>>>>> PVA Stub - Clean & Build\n"
-  pva &&  ./sbt clean && ./build.sh
-  echo "\n"
-
-  echo "\n>>>>> Proviso Stub - Clean & Build\n"
-  proviso && ./sbt clean && ./build.sh
-  echo "\n"
- 
-  echo "\n>>>>> IHS Stub - Clean & Build\n"
-  ihs && ./sbt clean && ./build.sh
-  echo "\n"
- 
-  echo "\n>>>>> E2E - Clean & Build\n"
-  e2e &&  ./sbt clean && ./build.sh
-  echo "\n"
-
-  echo "\n>>>>> Cid Stub - Clean & Build\n"
-  cidstub &&  ./sbt clean && ./build.sh
-  echo "\n"
-
-}
-
-function build-core() {
-  echo "\n>>>> Building core\n"
-  core && ./sbt clean && ./build.sh
-}
-
-function pull() {
-  echo "\n>>>>> Product Catalogue\n"
-  catalogue && git pull --rebase
-  echo "\n"
-  
-  echo "\n>>>>> Admin\n"
-  admin && git pull --rebase
-  echo "\n"
-  
-  echo "\n>>>>> DCJ\n"
-  dcj && git pull --rebase
-  echo "\n"
-
-  echo "\n>>>>> Payments \n"
-  payments && git pull --rebase
-  echo "\n"
-
-  echo "\n>>>>> Infra\n"
-  infra && git pull --rebase
-  echo "\n"
-
-  echo "\n>>>>> E2E\n"
-  e2e && git pull --rebase
-  echo "\n"
-}
-
-function stash() {
-
-  echo "\n>>>>> Product Catalogue - Start"
-  catalogue && git stash
-  
-  echo "\n>>>>> Admin - Start"
-  admin && git stash
-  
-  echo "\n>>>>> DCJ - Start"
-  dcj && git stash
-
-  echo "\n>>>>> Infra - Start"
-  infra && git stash
-
-  echo "\n>>>>> E2E - Start"
-  catalogue && git stash
-
-}
-
-
-function unstash() {
-
-  echo "\n>>>>> Product Catalogue - Start"
-  catalogue && git stash apply
-  
-  echo "\n>>>>> Admin - Start"
-  admin && git stash apply
-  
-  echo "\n>>>>> DCJ - Start"
-  dcj && git stash apply
-
-  echo "\n>>>>> Infra - Start"
-  infra && git stash apply
-
-  echo "\n>>>>> E2E - Start"
-  catalogue && git stash apply
-
-}
-
-function setup-tooling() {
-  start
-  mailcatcher
-  /usr/local/bin/mongod & tail -f /usr/local/var/log/mongodb/mongo.log
-  t "Mongo"
-}
-
-function start-application() {
-  application
-  echo "updating db.."
-  ..
-  ./updatedb.sh
-  cd -
-  t "App:3010"
-  ./run.sh
-}
-
-function start-admin() {
-  admin
-  t "Admin:9000"
-  ./run.sh
-}
-
-function start-customer() {
-  customer
-  t Cust:3010
-  ./run.sh
-}
-
-function start-catalogue() {
-  catalogue
-  echo "updating catalogue db.."
-  ./updatedb.sh
-  t "Cata:3000"
-  ./run.sh
-}
-
-function start-submission() {
-  submission
-  echo "updating submission db.."
-  ./updatedb.sh
-  t "Subm:3020"
-  ./run.sh
-}
-
-function start-pva() {
-  pva
-  t "PVA:9030"
-  ./run.sh
-}
-
-function start-proviso() {
-  proviso
-  t "Prov:3021"
-  ./run.sh
-}
-
-function start-worldpay() {
-  worldpay
-  t "WPay:3021"
-  ./run.sh
-}
-
-function update-sponsors() {
-  dcj
-  ./updateSponsors.sh
-}
-
-function start() {
-	echo 'tab 1. start-application'	
-	echo 'tab 2. start-customer'	
-	echo 'tab 3. start-admin'	
-	echo 'tab 4. start-catalogue'
-	echo 'tab 5. start-submission'
-	echo 'tab 6. start-pva'	
-	echo 'tab 7. start-proviso'	
-	echo 'tab 8. start-worldpay'	
-	echo 'tab 9. update-sponsors'	
-}
-
-function setjdk() {  
-  if [ $# -ne 0 ]; then  
-     removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'  
-	  if [ -n "${JAVA_HOME+x}" ]; then  
-	     removeFromPath $JAVA_HOME  
-	  fi  
-      export JAVA_HOME=`/usr/libexec/java_home -v $@`  
-      export PATH=$JAVA_HOME/bin:$PATH  
-  fi  
-}  
-
-function removeFromPath() {  
-	export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")  
-}
-                            
 # find shorthand
 function f() {
-    find . -name "$1"
+	find . -name "$1" 2>&1 | grep -v 'Permission denied'
+}
+
+# List all files, long format, colorized, permissions in octal
+function la(){
+ 	ls -l  "$@" | awk '
+    {
+      k=0;
+      for (i=0;i<=8;i++)
+        k+=((substr($1,i+2,1)~/[rwx]/) *2^(8-i));
+      if (k)
+        printf("%0o ",k);
+      printf(" %9s  %3s %2s %5s  %6s  %s %s %s\n", $3, $6, $7, $8, $5, $9,$10, $11);
+    }'
 }
 
 # cd into whatever is the forefront Finder window.
@@ -274,20 +289,26 @@ cdf() {  # short for cdfinder
 }
 
 
-# lets toss an image onto my server and pbcopy that bitch.
-function scpp() {
-    scp "$1" aurgasm@aurgasm.us:~/paulirish.com/i;
-    echo "http://paulirish.com/i/$1" | pbcopy;
-    echo "Copied to clipboard: http://paulirish.com/i/$1"
+
+# git commit browser. needs fzf
+log() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` \
+      --bind "ctrl-m:execute:
+                echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R'"
 }
+
+
 
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
 	local port="${1:-8000}"
-	open "http://localhost:${port}/"
-	# Set the default Content-Type to `text/plain` instead of `application/octet-stream`
-	# And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
-	python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
+	open "http://localhost:${port}/" &
+ 	# statikk is good because it won't expose hidden folders/files by default.
+ 	yarn global add statikk
+ 	statikk --port "$port" .
 }
 
 
@@ -296,94 +317,29 @@ cp_p () {
   rsync -WavP --human-readable --progress $1 $2
 }
 
-
-# Test if HTTP compression (RFC 2616 + SDCH) is enabled for a given URL.
-# Send a fake UA string for sites that sniff it instead of using the Accept-Encoding header. (Looking at you, ajax.googleapis.com!)
-function httpcompression() {
-	encoding="$(curl -LIs -H 'User-Agent: Mozilla/5 Gecko' -H 'Accept-Encoding: gzip,deflate,compress,sdch' "$1" | grep '^Content-Encoding:')" && echo "$1 is encoded using ${encoding#* }" || echo "$1 is not using any encoding"
+function localip(){
+	function _localip(){ echo "📶  "$(ipconfig getifaddr "$1"); }
+	export -f _localip
+	local purple="\x1B\[35m" reset="\x1B\[m"
+	networksetup -listallhardwareports | \
+		sed -r "s/Hardware Port: (.*)/${purple}\1${reset}/g" | \
+		sed -r "s/Device: (en.*)$/_localip \1/e" | \
+		sed -r "s/Ethernet Address:/📘 /g" | \
+		sed -r "s/(VLAN Configurations)|==*//g"
 }
 
-# Syntax-highlight JSON strings or files
-function json() {
-	if [ -p /dev/stdin ]; then
-		# piping, e.g. `echo '{"foo":42}' | json`
-		python -mjson.tool | pygmentize -l javascript
-	else
-		# e.g. `json '{"foo":42}'`
-		python -mjson.tool <<< "$*" | pygmentize -l javascript
-	fi
+# preview csv files. source: http://stackoverflow.com/questions/1875305/command-line-csv-viewer
+function csvpreview(){
+      sed 's/,,/, ,/g;s/,,/, ,/g' "$@" | column -s, -t | less -#2 -N -S
 }
 
-
-# take this repo and copy it to somewhere else minus the .git stuff.
-function gitexport(){
-	mkdir -p "$1"
-	git archive master | tar -x -C "$1"
+function solr-start() {
+ cd /Users/pakelly/tools/solr-7.7.3/bin
+ ./solr start
 }
 
 
-
-# get gzipped size
-function gz() {
-	echo "orig size    (bytes): "
-	cat "$1" | wc -c
-	echo "gzipped size (bytes): "
-	gzip -c "$1" | wc -c
-}
-
-# All the dig info
-function digga() {
-	dig +nocmd "$1" any +multiline +noall +answer
-}
-
-# Escape UTF-8 characters into their 3-byte format
-function escape() {
-	printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
-	echo # newline
-}
-
-# Decode \x{ABCD}-style Unicode escape sequences
-function unidecode() {
-	perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
-	echo # newline
-}
-
-# Extract archives - use: extract <file>
-# Credits to http://dotfiles.org/~pseup/.bashrc
-function extract() {
-	if [ -f $1 ] ; then
-		case $1 in
-			*.tar.bz2) tar xjf $1 ;;
-			*.tar.gz) tar xzf $1 ;;
-			*.bz2) bunzip2 $1 ;;
-			*.rar) rar x $1 ;;
-			*.gz) gunzip $1 ;;
-			*.tar) tar xf $1 ;;
-			*.tbz2) tar xjf $1 ;;
-			*.tgz) tar xzf $1 ;;
-			*.zip) unzip $1 ;;
-			*.Z) uncompress $1 ;;
-			*.7z) 7z x $1 ;;
-			*) echo "'$1' cannot be extracted via extract()" ;;
-		esac
-	else
-		echo "'$1' is not a valid file"
-	fi
-}
-
-
-# animated gifs from any video
-# from alex sexton   gist.github.com/SlexAxton/4989674
-gifify() {
-  if [[ -n "$1" ]]; then
-    if [[ $2 == '--good' ]]; then
-      ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
-      time convert -verbose +dither -layers Optimize -resize 600x600\> out-static*.png  GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - > $1.gif
-      rm out-static*.png
-    else
-      ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
-    fi
-  else
-    echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
-  fi
+function solr-stop() {
+ cd /Users/pakelly/tools/solr-7.7.3/bin
+ ./solr stop
 }
