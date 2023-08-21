@@ -18,6 +18,7 @@ brew install procs
 brew install zplug
 brew install exa
 brew install bat
+brew install broot
 
 # really handy plugin for fancy ctrl-r
 https://github.com/unixorn/fzf-zsh-plugin
