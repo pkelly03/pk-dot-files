@@ -3,3 +3,18 @@
 brew update
 brew upgrade
 brew cleanup
+
+brew install ripgrep
+brew install autojump
+brew install wget
+brew install jq
+brew install q
+brew install ctags
+brew install the_silver_searcher
+brew install tldr
+brew install zoxide
+brew install fzf
+brew install procs
+brew install zplug
+brew install exa
+brew install bat
