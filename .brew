@@ -18,3 +18,8 @@ brew install procs
 brew install zplug
 brew install exa
 brew install bat
+
+# really handy plugin for fancy ctrl-r
+https://github.com/unixorn/fzf-zsh-plugin
+
+# tips here - https://betterprogramming.pub/boost-your-command-line-productivity-with-fuzzy-finder-985aa162ba5d
